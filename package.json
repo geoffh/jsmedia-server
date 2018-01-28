@@ -1,0 +1,19 @@
+{
+  "name": "jsmediaserver",
+  "version": "1.0.0",
+  "description": "playing with node, mongodb, upnp etc.",
+  "main": "jsmedia.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Geoff Higgins",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "klaw": "^2.0.0",
+    "log4js": "^2.3.1",
+    "mongoose": "^4.11.4",
+    "peer-upnp": "0.0.5"
+  }
+}

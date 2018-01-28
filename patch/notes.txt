@@ -1,0 +1,8 @@
+peer-upnp: SAX Parsing Error on receipt of event messages
+- Error: Text data outside of root node.
+- Looks like badly formed xml from a renderer/server
+- Modified peer-upnp.js:handlePostEvent
+  Changed xml2js.parseString(req.data,{mergeAttrs: true
+  to      xml2js.parseString(req.data,{strict: false, mergeAttrs: true
+
+  This didn't work. Changed to wrap parseString in try catch

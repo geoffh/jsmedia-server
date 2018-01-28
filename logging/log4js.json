@@ -1,0 +1,12 @@
+{
+  "appenders": {
+	  "console": { "type": "console" },	  
+	  "logfile": { "type": "file", "filename": "jsmediaserver.log" }
+  },
+  "categories": {
+	  "default": { "appenders": [ "console", "logfile" ], "level": "info" },
+    "jsmedia": { "appenders": [ "console", "logfile" ], "level": "info" },
+    "jsmedia.upnp": { "appenders": [ "console", "logfile" ], "level": "debug" },
+    "jsmedia.upnp.device.discovery.devicediscovery": { "appenders": [ "console", "logfile" ], "level": "info" }
+  }
+}
