@@ -4,8 +4,6 @@ const log4js = require( 'log4js' );
 const BackendFactory = require( '../backend/backendfactory' );
 const JSMediaError = require( '../util/error' );
 const PersistenceManager = require( '../persistence/persistencemanager' );
-const PersistentAlbum = require( '../persistence/persistentalbum' );
-const PersistentArtist = require( '../persistence/persistentartist' );
 const PersistentContainer = require( '../persistence/persistentcontainer' );
 const PersistentRoot = require( '../persistence/persistentroot' );
 const PersistentTrack = require( '../persistence/persistenttrack' );
@@ -18,38 +16,8 @@ class Library {
     constructor() {
         this.mIsReady = false;
         this.mLogger = log4js.getLogger( 'jsmedia.library.library' );
-        
-        this.isReady = () => this.mIsReady;
-
-        this.refreshRoots = inCallback => {
-            this.mLogger.debug( 'Refreshing roots' );
-            PersistentRoot.find()
-                .then( function( inRoots ) {
-                    const thePromises = [];
-                    for ( let theIndex = 0; theIndex < inRoots.length; theIndex ++ ) {
-                        if ( ! PersistenceManager.isRootOfRoots( inRoots[ theIndex ] ) ) {
-                            thePromises.push( new RootRefresh( inRoots[ theIndex ] ).run() );
-                        }
-                    }
-                    return Promise.all( thePromises );
-                } )
-                .then( function() {
-                    theLibrary.scheduleRefresh()
-                } )
-                .catch( function(inError ) {
-                    console.log( inError );
-                } );
-        };
-
-        this.scheduleRefresh = () => {
-            const theLibrary = this;
-            setTimeout( function() { theLibrary.refreshRoots(); }, 5000 );
-        };
-
-        this.setIsReady = inIsReady => this.mIsReady = inIsReady;
-
         const theLibrary = this;
-        PersistenceManager.connect( ( inError ) => {
+        PersistenceManager.connect( inError => {
             if ( inError ) {
                 throw( inError );
             } else {
@@ -78,9 +46,12 @@ class Library {
             const theError = inError ?
                  new JSMediaError( 0, 'Failed to add root \'' + inUri + '\'', inError ) : null;
             if ( ! theError ) {
-                PersistenceManager.getRootOfRoots().setLastModified( new Date() ).save();
+                PersistenceManager.getRootOfRoots().setLastModified( new Date() ).save( function( inError ) {
+                    inCallback( theError, theRoot );
+                });
+            } else {
+                inCallback( theError, theRoot );
             }
-            inCallback( theError, theRoot );
         } );
     }
 
@@ -137,6 +108,40 @@ class Library {
                 inCallback( null, inChildren );
             }
         } );
+    }
+
+    isReady() {
+        return this.mIsReady;
+    }
+
+    refreshRoots( inCallback ) {
+        this.mLogger.debug( 'Refreshing roots' );
+        const theLibrary = this;
+        PersistentRoot.find()
+            .then( function( inRoots ) {
+                const thePromises = [];
+                for ( let theIndex = 0; theIndex < inRoots.length; theIndex ++ ) {
+                    if ( ! PersistenceManager.isRootOfRoots( inRoots[ theIndex ] ) ) {
+                        thePromises.push( new RootRefresh( inRoots[ theIndex ] ).run() );
+                    }
+                }
+                return Promise.all( thePromises );
+            } )
+            .then( function() {
+                theLibrary.scheduleRefresh();
+            } )
+            .catch( function(inError ) {
+                console.log( inError );
+            } );
+    }
+
+    scheduleRefresh() {
+        const theLibrary = this;
+        setTimeout( function() { theLibrary.refreshRoots(); }, 5000 );
+    }
+
+    setIsReady( inIsReady ) {
+        this.mIsReady = inIsReady;
     }
 }
 

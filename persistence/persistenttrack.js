@@ -47,7 +47,7 @@ persistentTrackSchema.methods = {
     getTrackNumber() { return this.get( 'trackNumber' ); },
     getType() { return 'track'; },
     getUri() { return this.get( 'uri' ); },
-    setAlbum( inAlbum ) { this.setParent( inAlbum ); },
+    setAlbum( inAlbum ) { return this.setParent( inAlbum ); },
     setBackendData( inBackendData ) { this.set( 'backendData', inBackendData ); return this; },
     setBitRate( inBitRate ) { this.set( 'bitRate', inBitRate ); return this; },
     setDuration( inDuration ) { this.set( 'duration', inDuration ); return this; },
@@ -79,6 +79,20 @@ persistentTrackSchema.statics = {
         return PersistentTrack.findOne( { uri: inUri } );
     }
 };
+
+persistentTrackSchema.post( 'save', ( inTrack, inNext ) => {
+    require( './persistencemanager' ).onSave( inTrack );
+    if ( inNext ) {
+        inNext();
+    }
+} );
+
+persistentTrackSchema.post( 'remove', ( inTrack, inNext ) => {
+    require( './persistencemanager' ).onRemove( inTrack );
+    if ( inNext ) {
+        inNext();
+    }
+} );
 
 const PersistentTrack = mongoose.model( 'PersistentTrack', persistentTrackSchema );
 

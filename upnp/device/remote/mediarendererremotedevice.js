@@ -16,15 +16,15 @@ class MediaRendererRemoteDevice extends RemoteDevice {
 		super( inDeviceObject, sRequiredServices );
 		this.mLogger = log4js.getLogger( 'jsmedia.upnp.device.remote.mediarendererremotedevice' );
 		this.mLogger.debug( 'Creating remote MediaRenderer:' + this.getDeviceFriendlyName() );
-		
-		this.getAVTransport = () => this.getService( ServiceTypes.AVTransport );		
-		this.getConnectionManager = () => this.getService( ServiceTypes.ConnectionManager );		
-		this.getRenderingControl = () => this.getService( ServiceTypes.RenderingControl );
 	}
 	
 	connectionComplete( inConnectionID, inCallback ) {
 		this.getConnectionManager().connectionComplete( inConnectionID, inCallback );
 	}
+
+	getAVTransport() { return this.getService( ServiceTypes.AVTransport ); }		
+	getConnectionManager() { return this.getService( ServiceTypes.ConnectionManager ); }		
+	getRenderingControl() { return this.getService( ServiceTypes.RenderingControl ); }
 	
 	getCurrentConnectionIDs( inCallback ) {
 		this.getConnectionManager().getCurrentConnectionIDs( inCallback );

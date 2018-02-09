@@ -13,7 +13,7 @@
     "express": "^4.15.3",
     "klaw": "^2.0.0",
     "log4js": "^2.3.1",
-    "mongoose": "^4.11.4",
+    "mongoose": "^5.0.2",
     "peer-upnp": "0.0.5"
   }
 }

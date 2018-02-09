@@ -23,29 +23,6 @@ class ConnectionManagerLocalService extends LocalService {
 		this.set( sSinkProtocolInfo, inIsSink ? sProtocolInfoValue : '' );	
 		this.set( sCurrentConnectionIDs, null );
 		
-		this.getCurrentConnectionInfo = inArgs => {
-			this.mLogger.debug( 'getCurrentConnectionInfo' );
-			return {
-				RcsID: 'A',
-				AVTransportID: 'B',
-				ProtocolInfo: 'C',
-				PeerConnectionManager: 'D',
-				PeerConnectionID: 'E',
-				Direction: 'F',
-				Status: 'G'
-			};
-		};
-		
-		this.getCurrentConnectionIDs = () => {
-			this.mLogger.debug( 'getCurrentConnectionIDs' );
-			return { ConnectionIDs: this.get( sCurrentConnectionIDs ) };
-		};
-		
-		this.getProtocolInfo = () => {
-			this.mLogger.debug( 'getProtocolInfo' );
-			return { Source: this.get( sSourceProtocolInfo), Sink: this.get( sSinkProtocolInfo ) };
-		};
-		
 		/*
 		 * Optional
 		 * 
@@ -102,6 +79,29 @@ class ConnectionManagerLocalService extends LocalService {
 			sAVTransportID: 'i4',
 			sRcsID: 'i4'			
 		} );
+	}
+
+	getCurrentConnectionInfo( inArgs ) {
+			this.mLogger.debug( 'getCurrentConnectionInfo' );
+			return {
+				RcsID: 'A',
+				AVTransportID: 'B',
+				ProtocolInfo: 'C',
+				PeerConnectionManager: 'D',
+				PeerConnectionID: 'E',
+				Direction: 'F',
+				Status: 'G'
+			};
+		};
+		
+	getCurrentConnectionIDs() {
+		this.mLogger.debug( 'getCurrentConnectionIDs' );
+		return { ConnectionIDs: this.get( sCurrentConnectionIDs ) };
+	}
+		
+	getProtocolInfo() {
+		this.mLogger.debug( 'getProtocolInfo' );
+		return { Source: this.get( sSourceProtocolInfo), Sink: this.get( sSinkProtocolInfo ) };
 	}
 }
 

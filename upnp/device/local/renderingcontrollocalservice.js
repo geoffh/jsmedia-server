@@ -5,33 +5,6 @@ class RenderingControlLocalService extends LocalService {
 	constructor() {
 		super( 'RenderingControl', '1' );
 		
-		this.getMute = inArgs => {			
-		};
-		
-		this.getVolume = inArgs => {			
-		};
-		
-		this.getVolumeDB = inArgs => {			
-		};
-		
-		this.getVolumeDBRange = inArgs => {			
-		};
-		
-		this.listPresets = inArgs => {			
-		};
-		
-		this.SelectPreset = inArgs => {			
-		};
-		
-		this.SetMute = inArgs => {			
-		};
-		
-		this.SetVolume = inArgs => {			
-		};
-		
-		this.SetVolumeDB = inArgs => {			
-		};
-		
 		this.addImplementations( this, {
 			'GetMute': this.getMute,
 			'GetVolume': this.getVolume,
@@ -53,7 +26,33 @@ class RenderingControlLocalService extends LocalService {
 	    this.addAction( 'SetMute', { InstanceID: 'A_ARG_TYPE_InstanceID', Channel: 'A_ARG_TYPE_Channel', DesiredMute: 'Mute' }, null );
 	    this.addAction( 'SetVolume', { InstanceID: 'A_ARG_TYPE_InstanceID', Channel: 'A_ARG_TYPE_Channel', DesiredVolume: 'Volume' }, null );
 	    this.addAction( 'SetVolumeDB', { InstanceID: 'A_ARG_TYPE_InstanceID', Channel: 'A_ARG_TYPE_Channel', DesiredVolume: 'VolumeDB' }, null );
+	}
 
+	getMute( inArgs ) {			
+	}
+	
+	getVolume( inArgs ) {			
+	}
+	
+	getVolumeDB( inArgs ) {			
+	}
+	
+	getVolumeDBRange( inArgs ) {			
+	}
+	
+	listPresets( inArgs ) {			
+	}
+	
+	SelectPreset( inArgs ) {			
+	}
+	
+	SetMute( inArgs ) {			
+	}
+	
+	SetVolume( inArgs ) {			
+	}
+	
+	SetVolumeDB( inArgs ) {			
 	}
 }
 

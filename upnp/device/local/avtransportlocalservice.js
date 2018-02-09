@@ -6,57 +6,7 @@ class AVTransportLocalService extends LocalService {
 	constructor() {
 		super( 'AVTransport', '1' );
 		this.mLogger = log4js.getLogger( 'jsmedia.upnp.device.local.AVTransportLocalService' );
-		
-		this.getCurrentTransportActions = inArgs =>	{ Actions: 'Some Actions' };
-		
-		this.getDeviceCapabilities = function( inArgs ) {
-			this.mLogger.debug( 'getDeviceCapabilities' );
-		};
-		
-		this.getMediaInfo = function( inArgs ) {
-			this.mLogger.debug( 'getMediaInfo' );
-		};
 
-		this.getPositionInfo = function( inArgs ) {
-			this.mLogger.debug( 'getPositionInfo' );
-		};
-
-		this.getTransportInfo = function( inArgs ) {
-			this.mLogger.debug( 'getTransportInfo' );
-		};
-
-		this.getTransportSettings = function( inArgs ) {
-			this.mLogger.debug( 'getTransportSettings' );
-		};
-		
-		this.next = function( inArgs ) {
-			this.mLogger.debug( 'next' );
-		};
-		
-		this.pause = function( inArgs ) {
-			this.mLogger.debug( 'pause' );
-		};
-		
-		this.play = function( inArgs ) {
-			this.mLogger.debug( 'play' );
-		};
-		
-		this.previous = function( inArgs ) {
-			this.mLogger.debug( 'previous' );
-		};
-		
-		this.seek = function( inArgs ) {
-			this.mLogger.debug( 'seek' );		
-		};
-		
-		this.setAVTransportURI = function( inArgs ) {
-			this.mLogger.debug( 'setAVTransportURI' );
-		};
-		
-		this.stop = function( inArgs ) {
-			this.mLogger.debug( 'stop' );			
-		};
-		
 		this.addImplementations( this, {
 			'GetCurrentTransportActions': this.getCurrentTransportActions,
 			'GetDeviceCapabilities': this.getDeviceCapabilities,
@@ -71,8 +21,8 @@ class AVTransportLocalService extends LocalService {
 			'Seek': this.seek,
 			'SetAVTransportURI': this.setAVTransportURI,
 			'Stop': this.stop
-		} );
-		
+		} );		
+
 		this.addAction( 'GetCurrentTransportActions', { InstanceID: 'A_ARG_TYPE_InstanceID' }, { Actions: 'CurrentTransportActions' } );
 		this.addAction( 'GetDeviceCapabilities',
 				        { InstanceID: 'A_ARG_TYPE_InstanceID' }, 
@@ -124,6 +74,58 @@ class AVTransportLocalService extends LocalService {
 	                      CurrentURIMetaData: 'AVTransportURIMetaData' },
 	                    null );
 		this.addAction( 'Stop', { InstanceID: 'A_ARG_TYPE_InstanceID', Speed: 'TransportPlaySpeed' }, null );
+	}
+
+	getCurrentTransportActions( inArgs ) {
+		return { Actions: 'Some Actions' };
+	}
+		
+	getDeviceCapabilities( inArgs ) {
+		this.mLogger.debug( 'getDeviceCapabilities' );
+	}
+	
+	getMediaInfo( inArgs ) {
+		this.mLogger.debug( 'getMediaInfo' );
+	}
+
+	getPositionInfo( inArgs ) {
+		this.mLogger.debug( 'getPositionInfo' );
+	}
+
+	getTransportInfo( inArgs ) {
+		this.mLogger.debug( 'getTransportInfo' );
+	}
+
+	getTransportSettings( inArgs ) {
+		this.mLogger.debug( 'getTransportSettings' );
+	}
+	
+	next( inArgs ) {
+		this.mLogger.debug( 'next' );
+	}
+	
+	pause( inArgs ) {
+		this.mLogger.debug( 'pause' );
+	}
+	
+	play( inArgs ) {
+		this.mLogger.debug( 'play' );
+	}
+	
+	previous( inArgs ) {
+		this.mLogger.debug( 'previous' );
+	}
+	
+	seek( inArgs ) {
+		this.mLogger.debug( 'seek' );		
+	}
+	
+	setAVTransportURI( inArgs ) {
+		this.mLogger.debug( 'setAVTransportURI' );
+	}
+	
+	stop( inArgs ) {
+		this.mLogger.debug( 'stop' );			
 	}
 }
 

@@ -10,29 +10,33 @@ class RemoteService {
 		this.mServiceDescription = null;
 		this.mServiceFunctions = inServiceFunctions;
 		this.mLogger = log4js.getLogger( 'jsmedia.upnp.device.remote.remoteservice' );
-		
-		this.execute = ( inFunction, inOptions, inCallback ) => {
-			const theService = this;
-			inFunction( inOptions, function( inResult ) {
-				theService.returnResult( inResult, inCallback );
-			} );
-		};
-		
-		this.getServiceDescription = () => this.mServiceDescription;
-		
-		this.getServiceFunctions = () => this.mServiceFunctions;
-		
-		this.onEvent = inData => {
-			this.mLogger.debug( 'onEvent:' + inData );
-		};
-		
-		this.returnResult = ( inResult, inCallback ) => {
-			if ( inResult instanceof UPnPError ) {
-				inCallback( null, inResult );
-			} else {
-				inCallback( inResult );
-			}
-		};
+	}
+
+	execute( inFunction, inOptions, inCallback ) {
+		const theService = this;
+		inFunction( inOptions, function( inResult ) {
+			theService.returnResult( inResult, inCallback );
+		} );
+	}
+	
+	getServiceDescription() {
+		return this.mServiceDescription;
+	}
+	
+	getServiceFunctions() {
+		return this.mServiceFunctions;
+	}
+	
+	onEvent( inData ) {
+		this.mLogger.debug( 'onEvent:' + inData );
+	}
+	
+	returnResult( inResult, inCallback ) {
+		if ( inResult instanceof UPnPError ) {
+			inCallback( null, inResult );
+		} else {
+			inCallback( inResult );
+		}
 	}
 	
 	getServiceType() {

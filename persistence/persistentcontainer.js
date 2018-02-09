@@ -74,8 +74,22 @@ persistentContainerSchema.statics = {
 
     findByUri( inUri ) {
         return this.findOne( { uri: inUri } );
-    }    
+    }
 };
+
+persistentContainerSchema.post( 'save', ( inTrack, inNext ) => {
+    require( './persistencemanager' ).onSave( inTrack );
+    if ( inNext ) {
+        inNext();
+    }
+} );
+
+persistentContainerSchema.post( 'remove', ( inTrack, inNext ) => {
+    require( './persistencemanager' ).onRemove( inTrack );
+    if ( inNext ) {
+        inNext();
+    }
+} );
 
 const PersistentContainer = mongoose.model( 'PersistentContainer', persistentContainerSchema );
 

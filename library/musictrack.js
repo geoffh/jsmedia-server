@@ -74,7 +74,7 @@ class MusicTrack {
     }
 
     setTrackNumber( inTrackNumber ) {
-        this.mTrackNumber = inTrackNumber;
+        this.mTrackNumber = parseInt( inTrackNumber );
         return this;
     }
 

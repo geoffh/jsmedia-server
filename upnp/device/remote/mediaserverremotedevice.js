@@ -15,11 +15,11 @@ class MediaServerRemoteDevice extends RemoteDevice {
 		super( inDeviceObject, sRequiredServices );
 		this.mLogger = log4js.getLogger( 'jsmedia.upnp.device.remote.mediaserverremotedevice' );
 		this.mLogger.debug( 'Creating remote MediaServer:' + this.getDeviceFriendlyName() );
-		
-		this.getAVTransport = () => this.getService( ServiceTypes.AVTransport );		
-		this.getConnectionManager = () => this.getService( ServiceTypes.ConnectionManager );		
-		this.getContentDirectory = () => this.getService( ServiceTypes.ContentDirectory );
 	}
+
+	getAVTransport() { return this.getService( ServiceTypes.AVTransport ); }		
+	getConnectionManager() { return this.getService( ServiceTypes.ConnectionManager ); }		
+	getContentDirectory() { return this.getService( ServiceTypes.ContentDirectory ); }
 	
 	getCurrentConnectionIDs( inCallback ) {
 		this.getConnectionManager().getCurrentConnectionIDs( inCallback );

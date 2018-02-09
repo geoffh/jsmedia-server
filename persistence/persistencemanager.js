@@ -16,26 +16,11 @@ class PersistenceManager {
         this.mDB = null;
         this.mRootOfRoots = null;
         this.mLogger = log4js.getLogger( 'jsmedia.persistence.PersistenceManager' );
+    }
 
-        this.initRootOfRoots = inCallback => {
-            const thePersistenceManager = this;
-            PersistentRoot.findById( sRootOfRootsId )
-                .then( function( inRoot ) {
-                    if ( inRoot ) {
-                        thePersistenceManager.mRootOfRoots = inRoot;
-                        inCallback();
-                        return;
-                    }
-                    thePersistenceManager.mRootOfRoots = new PersistentRoot();
-                    thePersistenceManager.mRootOfRoots.setRoot( thePersistenceManager.mRootOfRoots ).setTitle( sRootOfRootsTitle )
-                        .setUri( sRootOfRootsUri ).setId( new ObjectId( sRootOfRootsId ) )
-                        .setLastModified( new Date() );
-                    thePersistenceManager.mRootOfRoots.save().then( function() { inCallback(); } );
-                } )
-                .catch( function( inError ) {
-                    inCallback( inError );
-                } );
-        };
+    addListener( inPersistenceListener ) {
+        this.persistenceListeners = this.persistenceListeners || [];
+        this.persistenceListeners.push( inPersistenceListener );
     }
 
     connect( inCallback ) {
@@ -67,8 +52,55 @@ class PersistenceManager {
         return this.mRootOfRoots;
     }
 
+    initRootOfRoots( inCallback ) {
+        const thePersistenceManager = this;
+        PersistentRoot.findById( sRootOfRootsId )
+            .then( function( inRoot ) {
+                if ( inRoot ) {
+                    thePersistenceManager.mRootOfRoots = inRoot;
+                    inCallback();
+                    return;
+                }
+                thePersistenceManager.mRootOfRoots = new PersistentRoot();
+                thePersistenceManager.mRootOfRoots.setRoot( thePersistenceManager.mRootOfRoots ).setTitle( sRootOfRootsTitle )
+                    .setUri( sRootOfRootsUri ).setId( new ObjectId( sRootOfRootsId ) )
+                    .setLastModified( new Date() );
+                thePersistenceManager.mRootOfRoots.save().then( function() { inCallback(); } );
+            } )
+            .catch( function( inError ) {
+                inCallback( inError );
+            } );
+    }
+
     isRootOfRoots( inRoot ) {
         return sRootOfRootsId === inRoot.getId().toHexString();
+    }
+
+    onSave( inItem ) {
+        if ( ! this.persistenceListeners ) {
+            return;
+        }
+        for ( let thePersistenceListener in this.persistenceListeners ) {
+            thePersistenceListener.onSave( inItem );
+        }
+    }
+
+    onRemove( inItem ) {
+        if ( ! this.persistenceListeners ) {
+            return;
+        }
+        for ( let thePersistenceListener in this.persistenceListeners ) {
+            thePersistenceListener.onRemove( inItem );
+        }
+    }
+
+    removeListener( inPersistenceListener ) {
+        if ( this.persistenceListeners ) {
+            const theIndex = this.persistenceListeners.indexOf( inPersistenceListener );
+            if ( theIndex != -1 ) {
+                this.persistenceListeners.splice( theIndex, 1 );
+            }
+        }
     }
 }
 

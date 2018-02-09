@@ -6,44 +6,10 @@ class RemoteDevice {
 	constructor( inDeviceObject, inRequiredServices ) {
 		this.mLogger = log4js.getLogger( 'jsmedia.upnp.device.remote.remotedevice' );
 		this.mLogger.debug( 'Creating remote device: UDN:' + inDeviceObject.UDN + ' Type:' + inDeviceObject.deviceType );
-		
-		this.onDeviceDisappear = function( inDeviceObject ) {
-			this.mLogger.debug( 'Device disappeared:' + this.mServiceType );
-		};
-
 		this.mDeviceObject = inDeviceObject;
 		this.mRequiredServices = inRequiredServices;
 		this.mServices = new Map();
-		this.mDeviceObject.on( 'disappear', this.onDeviceDisappear.bind( this ) );
-		
-		this.getDeviceObject = function() {
-			return this.mDeviceObject;
-		};
-		
-		this.getService = function( inServiceType ) {
-			return this.mServices.get( inServiceType );
-		};
-		
-		this.getServices = function() {
-			return this.mServices;
-		};
-		
-		this.hasRequiredServices = function() {
-			if ( ! this.mRequiredServices ) {
-				return true;
-			}
-			for ( let theIndex = 0; theIndex < this.mRequiredServices.length; theIndex ++ ) {
-				const theService = this.getService( this.mRequiredServices[ theIndex ] );
-				if ( ! theService || ! theService.isReady() ) {
-					return false;
-				}
-			}
-			return true;
-		};
-		
-		this.onServiceDisappear = function( inServiceObject ) {
-			this.mLogger.debug( 'Service disappeared:' + inServiceObject );
-		};
+		this.mDeviceObject.on( 'disappear', this.onDeviceDisappear.bind( this ) );		
 	}
 	
 	addService( inService ) {
@@ -54,7 +20,36 @@ class RemoteDevice {
 			this.mServices.set( theServiceType, inService );
 			this.mLogger.debug( 'Service \'' + inService.getServiceUSN() + '\' added to device \'' + this.getDeviceType() + '\'' );
 		}
-	}	
+	}
+
+	getDeviceObject() {
+		return this.mDeviceObject;
+	}
+	
+	getService( inServiceType ) {
+		return this.mServices.get( inServiceType );
+	}
+	
+	getServices() {
+		return this.mServices;
+	}
+	
+	hasRequiredServices() {
+		if ( ! this.mRequiredServices ) {
+			return true;
+		}
+		for ( let theIndex = 0; theIndex < this.mRequiredServices.length; theIndex ++ ) {
+			const theService = this.getService( this.mRequiredServices[ theIndex ] );
+			if ( ! theService || ! theService.isReady() ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	onServiceDisappear( inServiceObject ) {
+		this.mLogger.debug( 'Service disappeared:' + inServiceObject );
+	}
 	
 	getDeviceFriendlyName() {
 		return this.mDeviceObject.friendlyName;
@@ -75,6 +70,10 @@ class RemoteDevice {
 	
 	isReady() {
 		return this.hasRequiredServices();
+	}
+
+	onDeviceDisappear( inDeviceObject ) {
+		this.mLogger.debug( 'Device disappeared:' + this.mServiceType );
 	}
 	
 	update( inDeviceObject ) {

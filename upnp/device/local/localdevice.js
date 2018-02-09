@@ -9,11 +9,11 @@ class LocalDevice {
 		inDeviceOptions.serialNumber = uuid.v1();
 		inDeviceOptions.UPC = uuid.v1();
 		this.mDevice = inUPNPPeer.createDevice( inDeviceOptions );
-		
-		this.addService = function( inLocalService ) {		
-			const theServiceObject = this.mDevice.createService( inLocalService.getOptions() );
-			inLocalService.setServiceObject( theServiceObject );
-		};
+	}
+
+	addService( inLocalService ) {		
+		const theServiceObject = this.mDevice.createService( inLocalService.getOptions() );
+		inLocalService.setServiceObject( theServiceObject );
 	}
 }
 

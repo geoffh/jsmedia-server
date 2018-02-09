@@ -22,32 +22,6 @@ class Backend {
 			throw( theError );
 		}
 		this.mRootUri = inRootUri;
-		
-		this.getLastModified = inPath => {
-			const theStat = fs.lstatSync( inPath );
-			return theStat ? theStat.mtime : null;
-		};
-
-		this.isValidTrackUri = inUri => inUri.startsWith( this.mRootUri ) && inUri.endsWith( sMP3Suffix );
-
-		this.pathToUri = inPath => sUriPrefix + inPath;
-
-		this.tagTrackNumberToTrackNumber = inTrackNumber => {
-			if ( ! inTrackNumber ) {
-				return null;
-			}
-			const theIndex = inTrackNumber.indexOf( '/' );
-			return theIndex < 0 ? inTrackNumber : inTrackNumber.substring( 0, theIndex );
-		};
-
-		this.uriToPath = inUri => inUri.substring( sUriPrefix.length );
-
-		this.walkDirectories = inCallback => {
-			klaw( this.uriToPath( this.mRootUri ) )
-				.on( 'data',  function( inItem ) { inCallback( inItem ); } )
-				.on( 'error', function( inError, inItem ) {	inCallback( inItem, inError ); } )
-				.on( 'end',   function() { inCallback( null, true ); } );
-		};		
 	}
 
 	getAlbumUri( inArtistName, inAlbumName ) {
@@ -56,6 +30,11 @@ class Backend {
 
 	getArtistUri( inArtistName ) {
 		return this.mRootUri + '/' + inArtistName;
+	}
+
+	getLastModified( inPath ) {
+		const theStat = fs.lstatSync( inPath );
+		return theStat ? theStat.mtime : null;
 	}
 	
 	getTrack( inUri ) {
@@ -90,6 +69,10 @@ class Backend {
 		} );
 	}
 
+	isValidTrackUri( inUri ) {
+		 return inUri.startsWith( this.mRootUri ) && inUri.endsWith( sMP3Suffix );
+	}
+
 	listTracks() {
 		const theBackend = this;
 		return new Promise( function( inResolve, inReject ) {			
@@ -113,6 +96,29 @@ class Backend {
 				}
 			} );
 		});
+	}
+
+	pathToUri( inPath ) {
+		return sUriPrefix + inPath;
+	}
+
+	tagTrackNumberToTrackNumber( inTrackNumber ) {
+		if ( ! inTrackNumber ) {
+			return null;
+		}
+		const theIndex = inTrackNumber.indexOf( '/' );
+		return theIndex < 0 ? inTrackNumber : inTrackNumber.substring( 0, theIndex );
+	}
+
+	uriToPath( inUri ) {
+		return inUri.substring( sUriPrefix.length );
+	}
+
+	walkDirectories( inCallback ) {
+		klaw( this.uriToPath( this.mRootUri ) )
+			.on( 'data',  function( inItem ) { inCallback( inItem ); } )
+			.on( 'error', function( inError, inItem ) {	inCallback( inItem, inError ); } )
+			.on( 'end',   function() { inCallback( null, true ); } );
 	}
 }
 

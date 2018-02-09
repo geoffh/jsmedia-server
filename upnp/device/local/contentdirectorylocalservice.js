@@ -21,82 +21,6 @@ class ContentDirectoryLocalService extends LocalService {
 			this.set( 'ContainerUpdateIDs', 'asd' );
 		}.bind( this ), 5000 );
 		
-		/* Optional */
-		this.createObject = inArgs => {
-			this.mLogger.debug( 'createObject' );
-		};
-		
-		/* Optional */
-		this.destroyObject = inArgs => {
-			this.mLogger.debug( 'destroyObject' );
-		};
-		
-		/* Required */
-		this.browse = ( inArgs, inCallback ) => {
-			this.mLogger.debug( 'BROWSE:' + inArgs );
-			let theResponse;
-			this.mLibrary.browse( inArgs.ObjectID, null, ( inError, inResult ) =>
-				browseResultToDIDL( this, inResult, inCallback )
-			);
-		};
-		
-		/* Optional */
-		this.createReference = inArgs => {
-			this.mLogger.debug( 'createReference' );
-		};
-		
-		/* Optional */
-		this.deleteResource =  inArgs => {
-			this.mLogger.debug( 'deleteResource' );
-		};
-		
-		/* Optional */
-		this.exportResource = inArgs => {
-			this.mLogger.debug( 'exportResource' );
-		};
-		
-		/* Required */
-		this.getSearchCapabilities = inArgs => {
-			this.mLogger.debug( 'getSearchCapabilities' );
-			/* Search not supported */
-			return { SearchCaps: '*' };
-		};
-		
-		/* Required */
-		this.getSortCapabilities = inArgs => {
-			this.mLogger.debug( 'getSortCapabilities' );
-		};
-		
-		/* Required */
-		this.getSystemUpdateID = () => {
-			this.mLogger.debug( 'getSystemUpdateID' );
-		};
-		
-		/* Optional */
-		this.getTransferResource = () => {
-			this.mLogger.debug( 'getTransferResource' );
-		};
-		
-		/* Optional */
-		this.importResource = () => {
-			this.mLogger.debug( 'importResource' );
-		};
-		
-		/* Optional */
-		this.search = inArgs => {
-			this.mLogger.debug( 'search' );
-		};
-		
-		/* Optional */
-		this.stopTransferResource = inArgs => {
-			this.mLogger.debug( 'stopTransferResource' );
-		};
-		
-		/* Optional */
-		this.updateObject = inArgs => {
-			this.mLogger.debug( 'updateObject' );
-		};
-		
 		this.addImplementations( this, {			
 			'Browse': this.browse,
 			'CreateObject': this.createObject,
@@ -188,6 +112,82 @@ class ContentDirectoryLocalService extends LocalService {
 	    	'SystemUpdateID': 'ui4',
 	    	'ContainerUpdateIDs': 'string'	    	
 	    } );
+	}
+
+	/* Optional */
+	createObject( inArgs ) {
+		this.mLogger.debug( 'createObject' );
+	}
+	
+	/* Optional */
+	destroyObject( inArgs ) {
+		this.mLogger.debug( 'destroyObject' );
+	}
+	
+	/* Required */
+	browse( inArgs, inCallback ) {
+		this.mLogger.debug( 'BROWSE:' + inArgs );
+		let theResponse;
+		this.mLibrary.browse( inArgs.ObjectID, null, ( inError, inResult ) =>
+			browseResultToDIDL( this, inResult, inCallback )
+		);
+	}
+	
+	/* Optional */
+	createReference( inArgs ) {
+		this.mLogger.debug( 'createReference' );
+	}
+	
+	/* Optional */
+	deleteResource( inArgs ) {
+		this.mLogger.debug( 'deleteResource' );
+	}
+	
+	/* Optional */
+	exportResource( inArgs ) {
+		this.mLogger.debug( 'exportResource' );
+	}
+	
+	/* Required */
+	getSearchCapabilities( inArgs ) {
+		this.mLogger.debug( 'getSearchCapabilities' );
+		/* Search not supported */
+		return { SearchCaps: '*' };
+	}
+	
+	/* Required */
+	getSortCapabilities( inArgs ) {
+		this.mLogger.debug( 'getSortCapabilities' );
+	}
+	
+	/* Required */
+	getSystemUpdateID() {
+		this.mLogger.debug( 'getSystemUpdateID' );
+	}
+	
+	/* Optional */
+	getTransferResource() {
+		this.mLogger.debug( 'getTransferResource' );
+	}
+	
+	/* Optional */
+	importResource() {
+		this.mLogger.debug( 'importResource' );
+	}
+	
+	/* Optional */
+	search( inArgs ) {
+		this.mLogger.debug( 'search' );
+	}
+	
+	/* Optional */
+	stopTransferResource( inArgs ) {
+		this.mLogger.debug( 'stopTransferResource' );
+	}
+	
+	/* Optional */
+	updateObject( inArgs ) {
+		this.mLogger.debug( 'updateObject' );
 	}
 }
 
