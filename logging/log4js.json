@@ -6,7 +6,9 @@
   "categories": {
 	  "default": { "appenders": [ "console", "logfile" ], "level": "info" },
     "jsmedia": { "appenders": [ "console", "logfile" ], "level": "info" },
-    "jsmedia.upnp": { "appenders": [ "console", "logfile" ], "level": "debug" },
+    "jsmedia.app": { "appenders": [ "console", "logfile" ], "level": "debug" },
+    "jsmedia.util": { "appenders": [ "console", "logfile" ], "level": "debug" },
+    "jsmedia.upnp": { "appenders": [ "console", "logfile" ], "level": "info" },
     "jsmedia.upnp.device.discovery.devicediscovery": { "appenders": [ "console", "logfile" ], "level": "info" }
   }
 }

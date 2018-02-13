@@ -36,7 +36,7 @@ class Library {
         this.mLogger.debug( 'Adding root uri:' + inUri + ' title:' + inTitle );
         const theBackend = BackendFactory.getBackend( inUri, true );
         if ( ! theBackend ) {
-            inCallback( 'Need to create a real error here' );
+            inCallback( new JSMediaError( JSMediaError.Code_Backend_InvalidURI, 'Failed to create backend for uri \'' + inUri + '\'' ) );
             return;
         }
         const theRoot = new PersistentRoot();

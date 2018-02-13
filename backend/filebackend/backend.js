@@ -104,7 +104,7 @@ class Backend {
 
 	tagTrackNumberToTrackNumber( inTrackNumber ) {
 		if ( ! inTrackNumber ) {
-			return null;
+			return 1;
 		}
 		const theIndex = inTrackNumber.indexOf( '/' );
 		return theIndex < 0 ? inTrackNumber : inTrackNumber.substring( 0, theIndex );

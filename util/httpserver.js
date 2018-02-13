@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
 const fs = require( 'fs' );
 const http = require( 'http' );
+const log4js = require( 'log4js' );
 
 const fileExists = require( './utils' ).fileExists;
 const getLocalHostIPAddress = require( './utils' ).getLocalHostIPAddress;
@@ -8,6 +9,7 @@ const urlDecode = require( './utils' ).urlDecode;
 
 class HttpServer {
 	constructor() {
+		this.mLogger = log4js.getLogger( 'jsmedia.util.httpserver' );
 		this.mRoots = [];
 		this.mURLPrefix = '';
 		this.mHttpServer = http.createServer();
@@ -41,7 +43,7 @@ class HttpServer {
 	}
 		
 	onListening() {
-		console.log( 'Listening to ' + this.mHttpServer.address().port );
+		this.mLogger.debug( 'Http Server available at localhost:' + this.mHttpServer.address().port );
 		getLocalHostIPAddress( inIPAddress =>
 			this.mURLPrefix = 'http://' + inIPAddress + ':' + this.mHttpServer.address().port
 		);

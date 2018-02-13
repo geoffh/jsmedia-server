@@ -26,7 +26,7 @@ class PersistenceManager {
     connect( inCallback ) {
         const thePersistenceManager = this;
         if ( ! this.mDB ) {
-            mongoose.connect( sDBUrl, { useMongoClient: true, })
+            mongoose.connect( sDBUrl )
                 .then( function( inDB ) {
                     thePersistenceManager.mDB = mongoose.connection;
                     thePersistenceManager.initRootOfRoots( inCallback );
@@ -80,8 +80,8 @@ class PersistenceManager {
         if ( ! this.persistenceListeners ) {
             return;
         }
-        for ( let thePersistenceListener in this.persistenceListeners ) {
-            thePersistenceListener.onSave( inItem );
+        for ( let theIndex = 0; theIndex < this.persistenceListeners.length; theIndex ++ ) {
+            this.persistenceListeners[ theIndex ].onSave( inItem );
         }
     }
 
@@ -89,8 +89,8 @@ class PersistenceManager {
         if ( ! this.persistenceListeners ) {
             return;
         }
-        for ( let thePersistenceListener in this.persistenceListeners ) {
-            thePersistenceListener.onRemove( inItem );
+        for ( let theIndex = 0; theIndex < this.persistenceListeners.length; theIndex ++ ) {
+            this.persistenceListeners[ theIndex ].onRemove( inItem );
         }
     }
 
